@@ -1,0 +1,91 @@
+@model BaiTapCSharp_MVC.Models.SchoolDataViewModel
+
+@{
+	ViewData["Title"] = "School Data";
+}
+
+<h1>School Data</h1>
+
+<h3>Teachers</h3>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Age</th>
+		</tr>
+	</thead>
+	<tbody>
+	@foreach (var teacher in Model.Teachers)
+	{
+		<tr>
+			<td>@teacher.Id</td>
+			<td>@teacher.Name</td>
+			<td>@teacher.Age</td>
+		</tr>
+	}
+	</tbody>
+</table>
+
+<h3>Students</h3>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Age</th>
+		</tr>
+	</thead>
+	<tbody>
+	@foreach (var student in Model.Students)
+	{
+		<tr>
+			<td>@student.Id</td>
+			<td>@student.Name</td>
+			<td>@student.Age</td>
+		</tr>
+	}
+	</tbody>
+</table>
+
+<h3>Courses</h3>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Teacher Id</th>
+		</tr>
+	</thead>
+	<tbody>
+	@foreach (var course in Model.Courses)
+	{
+		<tr>
+			<td>@course.Id</td>
+			<td>@course.Name</td>
+			<td>@course.TeacherId</td>
+		</tr>
+	}
+	</tbody>
+</table>
+
+<h3>Enrollments</h3>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Course</th>
+			<th>Student</th>
+			<th>Teacher</th>
+		</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model.Enrollments)
+	{
+		<tr>
+			<td>@item.CourseName</td>
+			<td>@item.StudentName</td>
+			<td>@item.TeacherName</td>
+		</tr>
+	}
+	</tbody>
+</table>
