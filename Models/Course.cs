@@ -5,7 +5,6 @@
         public required string Id { get; set; }
         public required string Name { get; set; }
         
-        public string TeacherId { get; set; }
-        public Teacher Teacher { get; set; }
+        public required string TeacherId { get; set; }
     }
 }
