@@ -13,7 +13,8 @@ public class AppDbContext : DbContext
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;
     public DbSet<Course> Courses { get; set; } = null!;
-    public DbSet<CoursesManegement> CoursesManegements { get; set; } = null!;
+    public DbSet<ClassSection> ClassSections { get; set; } = null!;
+    public DbSet<Enrollment> Enrollments { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,25 +29,38 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Course>()
             .HasKey(c => c.Id);
 
-        modelBuilder.Entity<Course>()
-            .HasOne<Teacher>()
-            .WithMany()
-            .HasForeignKey(c => c.TeacherId)
+        modelBuilder.Entity<ClassSection>()
+            .HasKey(cs => cs.Id);
+
+        modelBuilder.Entity<Enrollment>()
+            .HasKey(e => e.Id);
+
+        modelBuilder.Entity<ClassSection>()
+            .HasOne(cs => cs.Course)
+            .WithMany(c => c.ClassSections)
+            .HasForeignKey(cs => cs.CourseId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<CoursesManegement>()
-            .HasKey(cm => new { cm.CourseId, cm.StudentId });
+        modelBuilder.Entity<ClassSection>()
+            .HasOne(cs => cs.Teacher)
+            .WithMany(t => t.ClassSections)
+            .HasForeignKey(cs => cs.TeacherId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<CoursesManegement>()
-            .HasOne<Course>()
-            .WithMany()
-            .HasForeignKey(cm => cm.CourseId)
-            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Enrollment>()
+            .HasOne(e => e.Student)
+            .WithMany(s => s.Enrollments)
+            .HasForeignKey(e => e.StudentId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<CoursesManegement>()
-            .HasOne<Student>()
-            .WithMany()
-            .HasForeignKey(cm => cm.StudentId)
-            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Enrollment>()
+            .HasOne(e => e.ClassSection)
+            .WithMany(cs => cs.Enrollments)
+            .HasForeignKey(e => e.ClassSectionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Enrollment>()
+            .HasIndex(e => new { e.StudentId, e.ClassSectionId })
+            .IsUnique();
     }
 }

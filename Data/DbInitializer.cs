@@ -29,22 +29,29 @@ public static class DbInitializer
 
         var courses = new List<Course>
         {
-            new() { Id = "C01", Name = "ASP.NET Core", TeacherId = "T01" },
-            new() { Id = "C02", Name = "Database Systems", TeacherId = "T02" }
+            new() { Id = "C01", Name = "ASP.NET Core" },
+            new() { Id = "C02", Name = "Database Systems" }
         };
 
-        var enrollments = new List<CoursesManegement>
+        var classSections = new List<ClassSection>
         {
-            new() { CourseId = "C01", StudentId = "S01" },
-            new() { CourseId = "C01", StudentId = "S02" },
-            new() { CourseId = "C02", StudentId = "S02" },
-            new() { CourseId = "C02", StudentId = "S03" }
+            new() { Id = "LHP01", Name = "ASP.NET Core - Morning", CourseId = "C01", TeacherId = "T01" },
+            new() { Id = "LHP02", Name = "Database Systems - Afternoon", CourseId = "C02", TeacherId = "T02" }
+        };
+
+        var enrollments = new List<Enrollment>
+        {
+            new() { StudentId = "S01", ClassSectionId = "LHP01" },
+            new() { StudentId = "S02", ClassSectionId = "LHP01" },
+            new() { StudentId = "S02", ClassSectionId = "LHP02" },
+            new() { StudentId = "S03", ClassSectionId = "LHP02" }
         };
 
         await context.Teachers.AddRangeAsync(teachers);
         await context.Students.AddRangeAsync(students);
         await context.Courses.AddRangeAsync(courses);
-        await context.CoursesManegements.AddRangeAsync(enrollments);
+        await context.ClassSections.AddRangeAsync(classSections);
+        await context.Enrollments.AddRangeAsync(enrollments);
 
         await context.SaveChangesAsync();
     }
